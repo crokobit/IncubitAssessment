@@ -2,6 +2,9 @@ class User < ApplicationRecord
   has_secure_password
   include BCrypt
   validate :check_username, on: :update
+  validates :email, presence: true, uniqueness: true
+  validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
+
   before_create :set_user_name
 
   def set_user_name
