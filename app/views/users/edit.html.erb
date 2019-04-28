@@ -1,0 +1,6 @@
+<%= form_for @user do |f| %>
+  <%= f.text_field :username %>
+  <%= @user.email %>
+  <%= f.password_field :password, placeholder: 'fill to change pw' %>
+  <%= f.submit %>
+<% end %>
