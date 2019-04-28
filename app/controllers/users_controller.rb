@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       flash[:success] = 'user created'
       redirect_to user_path(@user)
     else
-      flash[:alert] = 'user is not created'
+      flash[:alert] = @user.errors.full_messages.join(', ')
       render :new
     end
   end
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       flash[:success] = 'user updated'
       redirect_to user_path(@user)
     else
-      flash[:alert] = 'failed'
+      flash[:alert] = @user.errors.full_messages.join(', ')
       render :edit
     end
   end
