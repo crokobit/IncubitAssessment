@@ -34,10 +34,15 @@ class UsersController < ApplicationController
   end
   private
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
   
   def update_user_params
-    params.require(:user).permit(:username, :password)
+    user = params.require(:user).permit(:username, :password, :password_confirmation)
+    if user[:password].empty? && user[:password_confirmation].empty?
+      user.delete(:password) 
+      user.delete(:password_confirmation) 
+    end
+    user
   end
 end
