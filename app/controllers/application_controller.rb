@@ -7,4 +7,11 @@ class ApplicationController < ActionController::Base
   def logged_in?
     session[:user_id].present?
   end
+
+  def require_same_user
+    if logged_in? && params[:id].to_i != current_user.id
+      flash[:alert] = 'unauthorized action, you can only see and modify the data of youself'
+      redirect_to user_path(current_user)
+    end
+  end
 end

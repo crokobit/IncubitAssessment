@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_same_user, only: [:show, :edit, :update]
+
   def show
     @user = User.find(params[:id])
   end
@@ -32,6 +34,7 @@ class UsersController < ApplicationController
       render :edit
     end
   end
+
   private
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation)
