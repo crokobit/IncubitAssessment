@@ -11,10 +11,13 @@
 
   <body>
     <header>
+      <%= link_to 'Logout', logout_path if logged_in? %>
+    </header>
+    <section>
       <% flash.each do |name, msg| %>
         <%= name %>:<%= msg %>
       <% end %>
-    </header>
+    </section>
     <%= yield %>
   </body>
 </html>

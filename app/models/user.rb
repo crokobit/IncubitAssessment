@@ -18,7 +18,7 @@ class User < ApplicationRecord
     end
   end
 
-  def password
-    @password ||= Password.new(password_digest)
+  def bcrypt_password
+    @bcrypt_password ||= Password.new(password_digest)
   end
 end
