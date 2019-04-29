@@ -25,7 +25,13 @@ class ResetPasswordsController < ApplicationController
 
   def do_password_reset
     @user = User.find_by(reset_digest: params[:id])
-    if @user.has_valid_reset_digest? && @user.update(password: params[:password], password_confirmation: params[:password_confirmation])
+    if @user.nil?
+      flash[:alert] = 'invalid action'
+      redirect_to login_path
+    elsif params[:password].empty?
+      flash[:alert] = 'password can not be blank'
+      render :edit
+    elsif @user.has_valid_reset_digest? && @user.update(password: params[:password], password_confirmation: params[:password_confirmation])
       @user.clear_reset_password_variables
       flash[:success] = 'reset password success'
 
