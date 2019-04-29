@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   def check_username
     if changes[:username] && username.length < 5
-      errors.add(:username, "username length must greater than five")
+      errors.add(:username, "username length must at least five chars")
     end
   end
 

@@ -17,10 +17,15 @@ RSpec.describe User, type: :model do
   end
 
   describe "on updating" do
-    it 'username can not smaller that 5 chars' do
+    it 'has error if you update username with string smaller that 5 chars' do
       user = User.create(email: 'test@gmail.com', password: '12345678')
       user.update(username: 'dddd' ,password: 'j')
-      expect(User.last.username).to eq 'test'
+      expect(user.errors[:username]).to eq ["username length must at least five chars"]
+    end
+    it 'updates the password with string at least 5 chars' do
+      user = User.create(email: 'test@gmail.com', password: '12345678')
+      user.update(username: 'ddddd')
+      expect(User.last.username).to eq 'ddddd'
     end
     it 'pass validation with username < 5 chars, username not changed but password changed' do
       user = User.create(email: 'test@gmail.com', password: '12345678')
@@ -50,6 +55,15 @@ RSpec.describe User, type: :model do
         user.reset_sent_at = DateTime.now.ago(5.hours)
         user.save
         expect(User.last.has_valid_reset_digest?).to be true
+      end
+    end
+    context "#clear_reset_password_variables" do
+      it 'clears reset_digest and reset_sent_at' do
+        user = User.create(email: 'test@gmail.com', password: '12345678')
+        user.set_reset_password_variables
+        user.clear_reset_password_variables
+        expect(User.last.reset_digest).to be nil
+        expect(User.last.reset_sent_at).to be nil
       end
     end
   end
