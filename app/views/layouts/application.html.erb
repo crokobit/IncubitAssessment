@@ -12,12 +12,13 @@
   <body>
     <header>
       <%= link_to 'Logout', logout_path if logged_in? %>
+      <%= link_to 'Reset Password', new_reset_password_path unless logged_in? %>
     </header>
     <section>
       <% flash.each do |name, msg| %>
         <%= name %>:<%= msg %>
       <% end %>
+      <%= yield %>
     </section>
-    <%= yield %>
   </body>
 </html>

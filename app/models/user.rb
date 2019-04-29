@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  has_secure_password
   include BCrypt
+  has_secure_password
+
   validate :check_username, on: :update
   validates :email, presence: true, uniqueness: true
   validate :password_length
@@ -25,8 +26,8 @@ class User < ApplicationRecord
 
   def set_reset_password_variables
     self.reset_digest = SecureRandom.urlsafe_base64
-
     self.reset_sent_at = DateTime.now
+    save
   end
 
   def has_valid_reset_digest?

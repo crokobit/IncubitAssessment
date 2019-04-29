@@ -42,10 +42,12 @@ class UsersController < ApplicationController
   
   def update_user_params
     user = params.require(:user).permit(:username, :password, :password_confirmation)
+
     if user[:password].empty? && user[:password_confirmation].empty?
       user.delete(:password) 
       user.delete(:password_confirmation) 
     end
+
     user
   end
 end

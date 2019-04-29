@@ -1,0 +1,6 @@
+<%= form_tag do_password_reset_path(@user.reset_digest) do |f| %>
+  <%= @user.email %>
+  <%= password_field_tag :password, nil, placeholder: 'password' %>
+  <%= password_field_tag :password_confirmation, nil, placeholder: 'password_confirmation' %>
+  <%= submit_tag 'Reset' %>
+<% end %>
