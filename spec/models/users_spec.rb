@@ -28,4 +28,27 @@ RSpec.describe User, type: :model do
       expect(User.last.bcrypt_password == '23456789').to be true
     end
   end
+
+  describe "reset password variables" do
+    context "#set_reset_password_variables" do
+      it 'set reset_digest' do
+        user = User.create(email: 'test@gmail.com', password: '12345678')
+        expect(user.reset_digest).to be nil
+        user.set_reset_password_variables
+        expect(user.reset_digest).to_not be nil
+      end
+    end
+    context "#has_valid_reset_digest?" do
+      it 'returns false if it is generated 6 hours before' do
+        user = User.create(email: 'test@gmail.com', password: '12345678')
+        user.reset_sent_at = DateTime.now.ago(7.hours)
+        expect(user.has_valid_reset_digest?).to be false
+      end
+      it 'returns true if it is generated within 6 hours' do
+        user = User.create(email: 'test@gmail.com', password: '12345678')
+        user.reset_sent_at = DateTime.now.ago(5.hours)
+        expect(user.has_valid_reset_digest?).to be true
+      end
+    end
+  end
 end
