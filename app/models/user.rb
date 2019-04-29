@@ -30,6 +30,12 @@ class User < ApplicationRecord
     save
   end
 
+  def clear_reset_password_variables
+    self.reset_digest = nil 
+    self.reset_sent_at = nil
+    save
+  end
+
   def has_valid_reset_digest?
     DateTime.now.ago(6.hours) < reset_sent_at
   end
