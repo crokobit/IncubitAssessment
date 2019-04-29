@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:success] = 'user created'
-      redirect_to user_path(@user)
+      redirect_to login_path 
     else
       flash[:alert] = @user.errors.full_messages.join(', ')
       render :new
