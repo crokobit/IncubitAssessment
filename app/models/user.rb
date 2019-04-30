@@ -5,6 +5,7 @@ class User < ApplicationRecord
   validate :check_username, on: :update
   validates :email, presence: true, uniqueness: true
   validate :password_length
+  validates_uniqueness_of :reset_digest, allow_nil: true
   validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
 
   before_create :set_user_name
